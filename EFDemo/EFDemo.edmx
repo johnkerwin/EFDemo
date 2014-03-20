@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EFDemoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="EFDemoModelStoreContainer">
+          <EntitySet Name="GroupMember" EntityType="EFDemoModel.Store.GroupMember" store:Type="Tables" store:Schema="dbo" store:Name="GroupMember">
+            <DefiningQuery>SELECT 
+      [GroupMember].[group_member_id] AS [group_member_id], 
+      [GroupMember].[member_id] AS [member_id], 
+      [GroupMember].[group_id] AS [group_id]
+      FROM [dbo].[GroupMember] AS [GroupMember]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Member" EntityType="EFDemoModel.Store.Member" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MyGroup" EntityType="EFDemoModel.Store.MyGroup" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__GroupMemb__group__182C9B23" Association="EFDemoModel.Store.FK__GroupMemb__group__182C9B23">
+            <End Role="MyGroup" EntitySet="MyGroup" />
+            <End Role="GroupMember" EntitySet="GroupMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GroupMemb__membe__173876EA" Association="EFDemoModel.Store.FK__GroupMemb__membe__173876EA">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="GroupMember" EntitySet="GroupMember" />
+          </AssociationSet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EFDemo.dbo.GroupMember' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="GroupMember">
+          <Key>
+            <PropertyRef Name="group_member_id" />
+          </Key>
+          <Property Name="group_member_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="member_id" Type="int" />
+          <Property Name="group_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="member_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MyGroup">
+          <Key>
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Name="group_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="group_name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__GroupMemb__group__182C9B23">
+          <End Role="MyGroup" Type="EFDemoModel.Store.MyGroup" Multiplicity="0..1" />
+          <End Role="GroupMember" Type="EFDemoModel.Store.GroupMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyGroup">
+              <PropertyRef Name="group_id" />
+            </Principal>
+            <Dependent Role="GroupMember">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GroupMemb__membe__173876EA">
+          <End Role="Member" Type="EFDemoModel.Store.Member" Multiplicity="0..1" />
+          <End Role="GroupMember" Type="EFDemoModel.Store.GroupMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="GroupMember">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EFDemoModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EFDemoEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="GroupMembers" EntityType="EFDemoModel.GroupMember" />
+          <EntitySet Name="Members" EntityType="EFDemoModel.Member" />
+          <EntitySet Name="MyGroups" EntityType="EFDemoModel.MyGroup" />
+          <AssociationSet Name="FK__GroupMemb__group__182C9B23" Association="EFDemoModel.FK__GroupMemb__group__182C9B23">
+            <End Role="MyGroup" EntitySet="MyGroups" />
+            <End Role="GroupMember" EntitySet="GroupMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GroupMemb__membe__173876EA" Association="EFDemoModel.FK__GroupMemb__membe__173876EA">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="GroupMember" EntitySet="GroupMembers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="GroupMember">
+          <Key>
+            <PropertyRef Name="group_member_id" />
+          </Key>
+          <Property Name="group_member_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="member_id" Type="Int32" />
+          <Property Name="group_id" Type="Int32" />
+          <NavigationProperty Name="MyGroup" Relationship="EFDemoModel.FK__GroupMemb__group__182C9B23" FromRole="GroupMember" ToRole="MyGroup" />
+          <NavigationProperty Name="Member" Relationship="EFDemoModel.FK__GroupMemb__membe__173876EA" FromRole="GroupMember" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="member_name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="GroupMembers" Relationship="EFDemoModel.FK__GroupMemb__membe__173876EA" FromRole="Member" ToRole="GroupMember" />
+        </EntityType>
+        <EntityType Name="MyGroup">
+          <Key>
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Name="group_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="group_name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="GroupMembers" Relationship="EFDemoModel.FK__GroupMemb__group__182C9B23" FromRole="MyGroup" ToRole="GroupMember" />
+        </EntityType>
+        <Association Name="FK__GroupMemb__group__182C9B23">
+          <End Role="MyGroup" Type="EFDemoModel.MyGroup" Multiplicity="0..1" />
+          <End Role="GroupMember" Type="EFDemoModel.GroupMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyGroup">
+              <PropertyRef Name="group_id" />
+            </Principal>
+            <Dependent Role="GroupMember">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GroupMemb__membe__173876EA">
+          <End Role="Member" Type="EFDemoModel.Member" Multiplicity="0..1" />
+          <End Role="GroupMember" Type="EFDemoModel.GroupMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="GroupMember">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EFDemoModelStoreContainer" CdmEntityContainer="EFDemoEntities">
+          <EntitySetMapping Name="GroupMembers">
+            <EntityTypeMapping TypeName="EFDemoModel.GroupMember">
+              <MappingFragment StoreEntitySet="GroupMember">
+                <ScalarProperty Name="group_member_id" ColumnName="group_member_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="EFDemoModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="member_name" ColumnName="member_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyGroups">
+            <EntityTypeMapping TypeName="EFDemoModel.MyGroup">
+              <MappingFragment StoreEntitySet="MyGroup">
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="group_name" ColumnName="group_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
